@@ -111,6 +111,67 @@ In this section, you will create an Amazon Lambda function that will validate th
 
 """
 
+def make_validation_struct(is_valid, violated_slot, message_content):
+    """
+    creates validation message
+    """
+    if message_content is None:
+        return {"isValid": is_valid, "violatedSlot": violated_slot}
+
+    return {
+        "isValid": is_valid,
+        "violatedSlot": violated_slot,
+        "message": {"contentType": "PlainText", "content": message_content},
+    }
+
+
+def validate_slot_data(age, investment_amount):
+    """
+    Validates the slot data -- age, investment_amount
+    """
+    # The `age` should be greater than zero and less than 65.
+    if age is not None:
+        age = parse_int(age)
+
+        # invalid age?
+        if not ((age > 0) and (age < 65)):
+            return build_validation_result(
+                False,
+                "age",
+                "Age must be greater than 0 and less than 65."
+            )
+
+    # investment_amount defined and valid?
+    if investment_amount is not None:
+        investment_amount = parse_int(investment_amount)
+
+        # valid investment_amount - should be equal to or greater than 5000.
+        if investment_amount < 5000:
+            return build_validation_result(
+                False,
+                "investment_amount",
+                "Investment amount must be greater than or equal to 5000."
+            )
+
+    # all slots are valid return true validation
+    return build_validation_result(True, None, None)
+
+
+def get_investment_recommendation(risk_level):
+    """
+    returns investement recommendation string based on risk level
+    """
+    risk = str(risk_level).lower()
+
+    recommendations = {
+        'none' : '100% bonds (AGG), 0% equities (SPY)',
+        'low' : '60% bonds (AGG), 40% equities (SPY)',
+        'medium' : '40% bonds (AGG), 60% equities (SPY)',
+        'high' : '20% bonds (AGG), 80% equities (SPY)'
+    }
+
+    return recommendations.get(risk)
+
 
 ### Intents Handlers ###
 def recommend_portfolio(intent_request):
@@ -118,13 +179,46 @@ def recommend_portfolio(intent_request):
     Performs dialog management and fulfillment for recommending a portfolio.
     """
 
+    # get some key slot data
     first_name = get_slots(intent_request)["firstName"]
     age = get_slots(intent_request)["age"]
     investment_amount = get_slots(intent_request)["investmentAmount"]
     risk_level = get_slots(intent_request)["riskLevel"]
-    source = intent_request["invocationSource"]
 
-    # YOUR CODE GOES HERE!
+    # note the source
+    source = intent_request["invocationSource"]
+    
+    if source == "DialogCodeHook":
+        # get all the slots
+        slots = get_slots(intent_request)
+
+        #check validity of the key slots -- age, investment_risk
+        validation_dict = validate_slot_data(age, investment_amount)
+
+
+        # invalid data will elict re-prompt
+        if not validation_dict["isValid"]:
+            slots[validation_dict["violatedSlot"]] = None  # Cleans invalid slot
+
+            # Returns an elicitSlot dialog to request new data for the invalid slot
+            return elicit_slot(
+                intent_request["sessionAttributes"],
+                intent_request["currentIntent"]["name"],
+                slots,
+                validation_dict["violatedSlot"],
+                validation_dict["message"],
+            )
+        
+        investment_recommendation_text = get_investment_recommendation(risk_level)
+
+        return close(intent_request["sessionAttributes"],
+        "Fulfilled",
+        {
+            "contentType": "PlainText",
+            "content": investment_recommendation_text
+        },
+    )
+
 
 
 ### Intents Dispatcher ###
