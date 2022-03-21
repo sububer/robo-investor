@@ -209,15 +209,20 @@ def recommend_portfolio(intent_request):
                 validation_dict["message"],
             )
         
-        investment_recommendation_text = get_investment_recommendation(risk_level)
+        # grab current session attributes
+        output_session_attributes = intent_request["sessionAttributes"]
 
-        return close(intent_request["sessionAttributes"],
-        "Fulfilled",
+        # when valid, return delegate to Lex bot
+        return delegate(output_session_attributes, get_slots(intent_request))
+
+    investment_recommendation_text = get_investment_recommendation(risk_level)
+
+    return close(intent_request["sessionAttributes"], 
+    "Fulfilled",
         {
             "contentType": "PlainText",
-            "content": investment_recommendation_text
-        },
-    )
+            "content": investment_recommendation_text }
+            )
 
 
 
