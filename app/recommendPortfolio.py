@@ -185,9 +185,14 @@ def recommend_portfolio(intent_request):
     investment_amount = get_slots(intent_request)["investmentAmount"]
     risk_level = get_slots(intent_request)["riskLevel"]
 
+    output_session_attributes = intent_request['sessionAttributes'] if intent_request['sessionAttributes'] is not None else {}
+
+
     # note the source
     source = intent_request["invocationSource"]
-    
+    print(source)
+
+    # used for validation of intent data
     if source == "DialogCodeHook":
         # get all the slots
         slots = get_slots(intent_request)
@@ -213,16 +218,18 @@ def recommend_portfolio(intent_request):
         output_session_attributes = intent_request["sessionAttributes"]
 
         # when valid, return delegate to Lex bot
-        return delegate(output_session_attributes, get_slots(intent_request))
+        return delegate(output_session_attributes, slots)
 
     investment_recommendation_text = get_investment_recommendation(risk_level)
 
-    return close(intent_request["sessionAttributes"], 
-    "Fulfilled",
+    return close(
+        output_session_attributes,
+        'Fulfilled',
         {
-            "contentType": "PlainText",
-            "content": investment_recommendation_text }
-            )
+            'contentType': 'PlainText',
+            'content': investment_recommendation_text
+        }
+    )
 
 
 
