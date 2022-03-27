@@ -4,37 +4,41 @@ FinTech Challenge 15 - robo investing advisor
 ---
 
 ## Overview
-TBD
+Robo-advisor is an implementation of a chat-bot using Amazon Lex and AWS Lambda, which will guide a in investor towards an investment portfolio recommendation.  
 
+## Assumptions & Process
+The chat bot will use [AWS Lambda](https://docs.aws.amazon.com/lambda/latest/dg/welcome.html) and [Amazon Lex](https://docs.aws.amazon.com/lexv2/latest/dg/what-is.html).
 
-## ChatBot
+High-level steps:  
+- An [Amazon Lex](https://docs.aws.amazon.com/lexv2/latest/dg/what-is.html) bot will be configured with a single intent that establishes a conversation about investment requirements
+- Chat bot will then be tested to ensure this is working properly
+- Chat bot will be enhaced with a [lambda function](app/recommendPortfolio.py) that validates user input, and returns the portfolio recommendation.  
+
+Submission:  
+- Final [lambda function](app/recommendPortfolio.py)
+- videos of testing and running chat bot (see below)
+
+## ChatBot Test Validation and Actual Use
+
+Test run of Amazon Lex setup:  
 ![Chatbot Test](media/chat-bot-test-output.gif)  
-TBD
 
+Actual run of Lex with Lambda handling the events to/from the Lex bot:  
+![Chatbot Test](media/chat-bot-test-output.gif)  
 
-## Assumptions & Analysis Process
-TBD
-
-
-## Summary Results
-TBD
 
 ---
 
 ## Technologies
 
-This challenge uses [python](https://www.python.org/) 3.7 and the following [built-in](https://docs.python.org/3/py-modindex.html) modules:
+This challenge uses [python](https://www.python.org/) 3.7 and the following modules:  
 - [pathlib](https://docs.python.org/3/library/pathlib.html)
+- [datetime](https://docs.python.org/3.7/library/datetime.html)
+- [dateutil](https://dateutil.readthedocs.io/en/stable/)  
 
-Additionally, it requires:
-- [matplotlib](https://matplotlib.org/)
-- [pandas](https://pandas.pydata.org/)
-- [JupyterLab](https://jupyterlab.readthedocs.io/en/stable/)
-- [scikit-learn](https://scikit-learn.org/stable/index.html)
-- [tensorflow](https://www.tensorflow.org/)
-- [keras](https://keras.io/)
-
-
+This challenges uses the following AWS technologies:  
+- [AWS Lambda](https://docs.aws.amazon.com/lambda/latest/dg/welcome.html)
+- [Amazon Lex](https://docs.aws.amazon.com/lexv2/latest/dg/what-is.html)  
 
 See [installation](#installation) below for specifics.
 
@@ -53,22 +57,9 @@ conda create --name dev python=3.7 anaconda
 conda activate dev
 
 # use pip to install the above modules, eg:
-pip install python-dotenv
+pip install dateutil
 ...etc...
 ```
-
-
----
-
-## Usage
-
-The analysis is presented within a [JupyterLab](https://jupyterlab.readthedocs.io/en/stable/) notebook. To launch JupyterLab, from the root of this repo dirctory:
-
-```
-# within repo root 
-$ jupyter lab
-```
-You can now open the notebook [GC_venture_funding_with_deep_learning.ipynb](app/GC_venture_funding_with_deep_learning.ipynb)  
 
 ---
 
