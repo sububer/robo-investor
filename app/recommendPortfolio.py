@@ -146,10 +146,10 @@ def validate_slot_data(age, investment_amount):
         investment_amount = parse_int(investment_amount)
 
         # valid investment_amount - should be equal to or greater than 5000.
-        if investment_amount < 5000:
+        if not (investment_amount >= 5000):
             return build_validation_result(
                 False,
-                "investment_amount",
+                "investmentAmount",
                 "Investment amount must be greater than or equal to 5000."
             )
 
