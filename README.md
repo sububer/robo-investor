@@ -20,10 +20,10 @@ The chat bot will use [AWS Lambda](https://docs.aws.amazon.com/lambda/latest/dg/
 
 ## ChatBot Test Validation and Actual Use
 
-Test run of Amazon Lex setup:  
+**Testing** of Amazon Lex setup:  
 ![Chatbot Test](media/chat-bot-test-output.gif)  
 
-Actual run of Lex with Lambda handling the events to/from the Lex bot:  
+**Actual** runs of Lex with Lambda handling the events to/from the Lex bot (error cases included):  
 ![Chatbot Actual](media/chat-bot-actual-run-output.gif)  
 
 
