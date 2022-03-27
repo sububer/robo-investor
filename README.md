@@ -4,7 +4,7 @@ FinTech Challenge 15 - robo investing advisor
 ---
 
 ## Overview
-Robo-advisor is an implementation of a chat-bot using Amazon Lex and AWS Lambda, which will guide an investor towards an investment portfolio recommendation.  
+Robo-advisor is an [implementation](app/recommendPortfolio.py) of a chat-bot using Amazon Lex and AWS Lambda, which will guide an investor towards an investment portfolio recommendation.  
 
 ## Assumptions & Process
 The chat bot will use [AWS Lambda](https://docs.aws.amazon.com/lambda/latest/dg/welcome.html) and [Amazon Lex](https://docs.aws.amazon.com/lexv2/latest/dg/what-is.html).
