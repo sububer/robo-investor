@@ -24,7 +24,7 @@ Test run of Amazon Lex setup:
 ![Chatbot Test](media/chat-bot-test-output.gif)  
 
 Actual run of Lex with Lambda handling the events to/from the Lex bot:  
-![Chatbot Actual](media/chat-bot-test-output.gif)  
+![Chatbot Actual](media/chat-acutal-run.mov)  
 
 
 ---
